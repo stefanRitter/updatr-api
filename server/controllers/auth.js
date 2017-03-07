@@ -4,9 +4,6 @@ var User = require('mongoose').model('User'),
     Boom = require('boom'),
     server = {};
 
-var Path = require('path'),
-    publicPath = Path.join(__dirname, '../public');
-
 
 function loginTwitter (request, reply) {
   var userData = request.auth.credentials;
@@ -37,8 +34,8 @@ function loginTwitter (request, reply) {
 
 
 function login (request, reply) {
-  if (request.auth.isAuthenticated) { return reply.redirect('/'); }
-  if (request.method === 'get')     { return reply.file(publicPath + '/html/index.html'); }
+  if (request.auth.isAuthenticated) { return reply.redirect('/app'); }
+  if (request.method === 'get')     { return reply.view('login'); }
 
   User.login(request.payload.email, request.payload.password, function (err, user) {
     if (err) { return reply(Boom.badRequest(err)); }
@@ -50,8 +47,8 @@ function login (request, reply) {
 
 
 function join (request, reply) {
-  if (request.auth.isAuthenticated) { return reply.redirect('/'); }
-  if (request.method === 'get')     { return reply.file(publicPath + '/html/index.html'); }
+  if (request.auth.isAuthenticated) { return reply.redirect('/app'); }
+  if (request.method === 'get')     { return reply.view('join'); }
 
   var newUser = new User();
   newUser.email = request.payload.email;

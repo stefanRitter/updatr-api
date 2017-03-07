@@ -10,7 +10,7 @@ const config = require('./config/config')[process.env.NODE_ENV];
 const server = require('./config/hapi.js')(config);
 
 // setup datastore
-// require('./config/mongoose.js')(config);
+require('./config/mongoose.js')(config);
 
 // setup routes
 require('./config/routes.js')(config, server);

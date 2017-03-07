@@ -2,6 +2,7 @@
 
 const Path = require('path');
 const staticPath = Path.join(__dirname, '../static');
+const templatesPath = Path.join(__dirname, '../templates');
 
 module.exports = function (config, server) {
 
@@ -12,7 +13,7 @@ module.exports = function (config, server) {
         method: 'GET',
         path: '/',
         handler: {
-            file: staticPath+'/index.html'
+            view: 'index'
         }
     });
 

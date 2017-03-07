@@ -3,6 +3,8 @@
 const Hapi = require('hapi');
 const Good = require('good');
 const Inert = require('inert');
+const Vision = require('vision');
+const Handlebars = require('handlebars');
 
 const server = new Hapi.Server();
 
@@ -14,7 +16,7 @@ module.exports = function (config) {
     server.register(Inert, (err) => {
         if (err) { throw err; }
     });
-    
+
     // register Good logging
     server.register({
         register: Good,
@@ -34,6 +36,19 @@ module.exports = function (config) {
         }
     }, (err) => {
         if (err) { throw err; }
+    });
+
+    // register templates engine
+    server.register(Vision, (err) => {
+        if (err) { throw err; }
+
+        server.views({
+            engines: {
+                html: Handlebars
+            },
+            relativeTo: __dirname,
+            path: '../templates'
+        });
     });
 
     return server;
