@@ -6,14 +6,14 @@ const templatesPath = Path.join(__dirname, '../templates');
 
 module.exports = function (config, server) {
 
-    // require('../controllers/auth.js')(server);
-    // require('../controllers/feed.js')(server);
+    require('../controllers/auth.js')(server);
+    require('../controllers/app.js')(server);
 
     server.route({
         method: 'GET',
-        path: '/',
+        path: '/terms',
         handler: {
-            view: 'index'
+            view: 'terms'
         }
     });
 

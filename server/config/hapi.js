@@ -5,6 +5,7 @@ const Good = require('good');
 const Inert = require('inert');
 const Vision = require('vision');
 const Handlebars = require('handlebars');
+const AuthCookie = require('hapi-auth-cookie');
 
 const server = new Hapi.Server();
 
@@ -49,6 +50,11 @@ module.exports = function (config) {
             relativeTo: __dirname,
             path: '../templates'
         });
+    });
+
+    // register cookie auth
+    server.register(AuthCookie, (err) => {
+        if (err) { throw err; }
     });
 
     return server;
