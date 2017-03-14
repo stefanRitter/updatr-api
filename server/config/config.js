@@ -13,7 +13,7 @@ module.exports = {
   },
 
   production: {
-    datastoreURI: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL,
+    datastoreURI: process.env.MONGODB_URI || process.env.MONGOLAB_URI || process.env.MONGOHQ_URL,
     port: process.env.PORT
   }
 };
