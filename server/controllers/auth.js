@@ -98,6 +98,13 @@ module.exports = function (_server) {
                     }
                 }
             }
+        },
+        {
+            method: 'GET',
+            path: '/passwordreset',
+            handler: {
+                view: 'forgot'
+            }
         }
     ]
     .forEach(function (route) { server.route(route); });
