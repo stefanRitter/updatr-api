@@ -6,10 +6,15 @@ var server = {};
 
 function login (request, reply) {
     if (request.auth.isAuthenticated) { return reply.redirect('/'); }
-    if (request.method === 'get')     { return reply.view('login'); }
+    if (request.method === 'get') { return reply.view('login'); }
 
     User.login(request.payload.email, request.payload.password, function (err, user) {
-        if (err) { return reply(Boom.badRequest(err)); }
+        if (err) {
+            return reply.view('login', {
+                message: err,
+                userDoesNotExist: err === 'user does not exist'
+            });
+        }
 
         request.auth.session.set({_id: user._id});
         reply.redirect('/');
