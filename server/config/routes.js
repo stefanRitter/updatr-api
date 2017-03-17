@@ -47,9 +47,9 @@ module.exports = function (config, server) {
 
     server.route({
         method: 'GET',
-        path: '/.well-known/acme-challenge/fVzKBJa5F8nMct5ZMvIbR1qx2_uvvS24_48BR6Cisx4',
+        path: '/.well-known/acme-challenge/kPOJwVariu8vQykqLgrOnkUguL7W9nu-aOhPjpDLyCE',
         handler: function (request, reply) {
-            reply('fVzKBJa5F8nMct5ZMvIbR1qx2_uvvS24_48BR6Cisx4.-bJqq9R_kYZvQXODp96XuDGfmjN-9fj9e2Kb-vCLPAY');
+            reply('kPOJwVariu8vQykqLgrOnkUguL7W9nu-aOhPjpDLyCE.mGdPYHzTy1YnLg2kCJBCOdAIHDO04A0xZ2b_V4V5xxg');
         }
     });
 
