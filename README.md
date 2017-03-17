@@ -16,3 +16,7 @@ built with Hapi.js
 ## Start dev server
 
     supervisor server/
+
+## SSL
+certbot certonly --config-dir ~/updatr/ --work-dir ~/updatr/ --logs-dir ~/updatr/ --manual
+https://medium.com/@franxyzxyz/setting-up-free-https-with-heroku-ssl-and-lets-encrypt-80cf6eac108e#.sialj925h
