@@ -2,7 +2,9 @@
 
 const User = require('mongoose').model('User');
 const Boom = require('boom');
+
 var server = {};
+
 
 function login (request, reply) {
     if (request.auth.isAuthenticated) { return reply.redirect('/'); }

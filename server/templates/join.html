@@ -76,21 +76,28 @@
                 {{/if}}
             </div>
             {{else}}
-            <h1 style="font-weight:100;margin:1.2em 0;">Join Updatr</h1>
+            <h1 style="font-weight:100;margin:1.2em 0;">Join Updatr 🎉</h1>
         {{/if}}
 
         <form class="static-form" method="post" action="/join">
             <fieldset class="link-adder-container">
-                <label for="email">Email</label>
+                <label for="email">Your Email</label>
                 <input type="email" name="email" value="{{email}}">
             </fieldset>
 
             <fieldset class="link-adder-container">
-                <label for="password">Password</label>
+                <label for="password">Create a Password</label>
                 <input type="password" name="password">
             </fieldset>
 
             <button type="submit">Create Account</button>
+
+            <p class="accept-text">
+                By clicking Create Account, I agree to the
+                <a href="/terms" target="_blank">Terms of Service</a>
+                and
+                <a href="/privacy" target="_blank">Privacy Policy</a>.
+            </p>
         </form>
 
         <p class="switch-form">

@@ -21,7 +21,7 @@ module.exports = function (config, server) {
         method: 'GET',
         path: '/privacy',
         handler: {
-            view: 'privacy'
+            view: 'terms'
         }
     });
 

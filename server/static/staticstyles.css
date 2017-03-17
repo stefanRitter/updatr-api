@@ -49,6 +49,16 @@
     font-weight: 300;
     color: darkgray;
 }
+.accept-text {
+    margin: 15px auto;
+    text-align: center;
+    color: darkgray;
+    font-size: 11px;
+    max-width: 320px;
+}
+.accept-text a {
+    color: darkgray;
+}
 .form-error {
     margin: 20px auto;
 }
