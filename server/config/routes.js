@@ -47,6 +47,14 @@ module.exports = function (config, server) {
 
     server.route({
         method: 'GET',
+        path: '/.well-known/acme-challenge/fVzKBJa5F8nMct5ZMvIbR1qx2_uvvS24_48BR6Cisx4',
+        handler: function (request, reply) {
+            reply('fVzKBJa5F8nMct5ZMvIbR1qx2_uvvS24_48BR6Cisx4.-bJqq9R_kYZvQXODp96XuDGfmjN-9fj9e2Kb-vCLPAY');
+        }
+    });
+
+    server.route({
+        method: 'GET',
         path: '/{param*}',
         handler: {
             directory: {
