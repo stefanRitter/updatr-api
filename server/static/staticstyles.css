@@ -37,6 +37,12 @@
     display: block;
 }
 .link-adder-container input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
     border: 0;
     border-bottom: 1px solid darkgray;
     outline: 0;
