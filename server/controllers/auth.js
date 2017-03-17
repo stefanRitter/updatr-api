@@ -12,11 +12,12 @@ function login (request, reply) {
         if (err) {
             return reply.view('login', {
                 message: err,
-                userDoesNotExist: err === 'user does not exist'
+                userDoesNotExist: err === 'user does not exist',
+                email: request.payload.email
             });
         }
 
-        request.auth.session.set({_id: user._id});
+        request.cookieAuth.set({_id: user._id});
         reply.redirect('/');
     });
 }
@@ -29,17 +30,42 @@ function join (request, reply) {
     var newUser = new User();
     newUser.email = request.payload.email;
     newUser.password = request.payload.password;
-    newUser.save(function (err, user) {
-        if (err) { return reply(Boom.badRequest(err)); }
 
-        request.auth.session.set({_id: user._id});
+    newUser.save(function (err, user) {
+        if (err) {
+            var userDoesExist = false;
+
+            if (!!err.errors && !!err.errors.password) {
+                err.errors.password.message = err.errors.password.message.replace(/`password`.* is/, '`password` is');
+            }
+            var errorStr = err.toString().replace('ValidationError: Path ', '');
+            errorStr = errorStr.replace('Path ', '');
+            errorStr = errorStr.replace('.', '');
+
+            if (err.name === 'MongoError') {
+                if (err.code === 11000) {
+                    errorStr = 'User already exists';
+                    userDoesExist = true;
+                } else {
+                    errorStr = 'Internal server error, plz again';
+                }
+            }
+
+            return reply.view('join', {
+                message: errorStr,
+                userDoesExist: userDoesExist,
+                email: request.payload.email
+            });
+        }
+
+        request.cookieAuth.set({_id: user._id});
         reply.redirect('/');
     });
 }
 
 
 function logout (request, reply) {
-    request.auth.session.clear();
+    request.cookieAuth.clear();
     return reply.redirect('/');
 }
 

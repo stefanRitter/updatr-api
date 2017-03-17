@@ -66,7 +66,7 @@
         {{#if message}}
             <div class="form-error">
                 <h3>{{message}} 😢</h3>
-                {{#if userDoesNotExist}}
+                {{#if userDoesExist}}
                     <p>
                         Already have an account?
                         <a href="/login">Please sign in here.</a>
@@ -79,10 +79,10 @@
             <h1 style="font-weight:100;margin:1.2em 0;">Join Updatr</h1>
         {{/if}}
 
-        <form class="static-form" method="post" action="/login">
+        <form class="static-form" method="post" action="/join">
             <fieldset class="link-adder-container">
                 <label for="email">Email</label>
-                <input type="email" name="email">
+                <input type="email" name="email" value="{{email}}">
             </fieldset>
 
             <fieldset class="link-adder-container">
