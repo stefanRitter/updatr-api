@@ -6,12 +6,21 @@ const Inert = require('inert');
 const Vision = require('vision');
 const Handlebars = require('handlebars');
 const AuthCookie = require('hapi-auth-cookie');
+const Https = require('hapi-require-https');
 
 const server = new Hapi.Server();
 
 module.exports = function (config) {
 
     server.connection({ port: config.port, host: config.host });
+
+    // SSL
+    if (config.ssl) {
+        server.register({
+            register: Https,
+            options: {}
+        });
+    }
 
     // register static files plugin
     server.register(Inert, (err) => {
