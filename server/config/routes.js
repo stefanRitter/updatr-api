@@ -19,6 +19,24 @@ module.exports = function (config, server) {
 
     server.route({
         method: 'GET',
+        path: '/privacy',
+        handler: {
+            view: 'privacy'
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/static/{param*}',
+        handler: {
+            directory: {
+                path: staticPath
+            }
+        }
+    });
+
+    server.route({
+        method: 'GET',
         path: '/assets/{param*}',
         handler: {
             directory: {
