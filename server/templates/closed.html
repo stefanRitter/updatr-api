@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Updatr</title>
+    <title>Updatr - Terms &amp; Privacy Policy</title>
 
     <meta name="description" content="Keep up to date.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,10 +12,8 @@
     <link rel="shortcut icon" href="/assets/img/icon-48.png">
     <link rel="apple-touch-icon" href="/assets/img/icon-128.png">
 
-    <link rel="stylesheet" href="/static/staticstyles.css">
-
     <style>
-        body, html, main {
+        body, html {
             width: 100%;
             height: 100%;
             padding: 0;
@@ -25,25 +23,27 @@
             text-align: center;
         }
         main {
-            min-height: 450px;
-            height: auto;
+            margin: auto;
+            max-width: 800px;
+            text-align: left;
+            padding: 10px;
         }
-        .app-header {
+        header {
             background: #f36c3d;
             color: white;
             overflow: hidden;
-            padding: 20px 5px;
         }
-        .app-header h2 {
+        h2 {
             font-size: 3em;
-            margin: 20px auto;
         }
-        .app-header h3 {
+        h4 {
             font-size: 20px;
             line-height: 30px;
             max-width: 560px;
-            margin: 10px auto;
-            padding: 10px;
+            margin: 1em auto;
+        }
+        a {
+            color: #f36c3d;
         }
         .app-header-title {
             padding: 11px 0;
@@ -62,49 +62,9 @@
             display: inline-block;
             vertical-align: bottom;
         }
-        .join-button {
-            display: block;
-            white-space: nowrap;
-            text-decoration: none;
-            vertical-align: middle;
-            font-family: Roboto,"Helvetica Neue",sans-serif;
-            font-weight: 500;
-            text-align: center;
-            margin: 15px auto;
-            max-width: 300px;
-            background-color: #706ef5;
-            border-radius: 7px;
+        p {
             font-size: 20px;
-            max-width: 320px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            line-height: normal;
-            color: #fff;
-            border: 0;
-            padding: 15px 15px 12px;
-            padding: .9375rem .9375rem .75rem;
-        }
-        .login-button {
-            text-decoration: none;
-            color: white;
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            z-index: 10;
-            font-weight: 100;
-        }
-        .phone {
-            max-width: 500px;
-            margin: 15px auto;
-            padding: 0 10px;
-            border-bottom: 1px solid lightgray;
-        }
-        .phone img {
-            max-width: 320px;
-            display: block;
-            margin: auto;
-            width: 100%;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -116,31 +76,22 @@
             </svg>
             <span>Updatr</span>
         </h1>
-        <h2>
-            <!-- Keep up to date. -->
-            <!-- Follow anything. -->
-            Stay informed.
-        </h2>
-        <h3>
-            Updatr lets you follow your industry's blogs, sources, and news in one place across any device.
-        </h3>
-        <a href="/join" class="join-button">Sign up for free</a>
-        <a href="/login" class="login-button">Sign In</a>
     </header>
 
     <main>
-        <div class="phone">
-            <img src="/static/updatrphone.jpg" alt="Updatr phone">
-        </div>
+        <h2>Welcome to <span>Updatr</span> 🤗!</h2>
+        <p>
+            Congratulations for finding us so early!
+            <br>
+            We're still in <strong>closed beta</strong>. And you're now on the list to be the next one in!
+            <br>
+            <br>
+            We're working hard to release the next version.
+            <br>
+            If you can't wait anymore, please email <a href="mailto:help@getupdatr.com">help@getupdatr.com</a>
+        </p>
+        <h2>🚀</h2>
     </main>
-
-    <footer class="footer">
-        <a href="/terms" class="footer-entry" target="_blank">Terms of Service</a>
-        <a href="/privacy" class="footer-entry" target="_blank">Privacy Policy</a>
-        <span class="footer-entry last">
-            Copyright 2017 Updatr.
-        </span>
-    </footer>
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -148,7 +99,7 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-92910347-1', 'auto');
-        ga('send', 'pageview');
+        ga('send', 'pageview', '/closed');
     </script>
 </body>
 </html>
