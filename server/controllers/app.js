@@ -6,7 +6,6 @@ var server = {};
 
 
 function home (request, reply) {
-    if (request.connection.info.host === 'herokuapp') { return reply.redirect('http://www.getupdatr.com'); }
     // if (request.auth.isAuthenticated) { return reply.file(appPath); }
     if (request.auth.isAuthenticated) { return reply.view('closed'); }
     reply.view('index');

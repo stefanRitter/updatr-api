@@ -79,7 +79,7 @@ module.exports = function (_server) {
         password:   'password-should-be-32-characters',
         cookie:     'updatrsid',
         redirectTo: false,
-        isSecure:   false,
+        isSecure:   true,
         ttl:        30 * 24 * 60 * 60 * 1000 // 30 days
     });
 
