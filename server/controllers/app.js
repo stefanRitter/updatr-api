@@ -17,6 +17,13 @@ module.exports = function (_server) {
 
     [
         {
+            method: 'GET',
+            path: '/demo',
+            handler: {
+                file: appPath
+            }
+        },
+        {
             method: ['GET'],
             path: '/',
             config: {
