@@ -20,7 +20,16 @@ schema = mongoose.Schema({
         required: true,
         maxlength: 70,
         minlength: 6
-    }
+    },
+    links: [{
+        created_at: String,
+        url:        String,
+        html:       String,
+        updatedOn:  String,
+        visited:    Boolean,
+        loading:    Boolean,
+        stars:      Number
+    }]
 });
 
 schema.statics.login = function(email, passwordToMatch, cb) {

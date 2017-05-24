@@ -11,6 +11,23 @@ function home (request, reply) {
     reply.view('index');
 }
 
+function getLinks (request, reply) {
+    // if (!request.auth.isAuthenticated) { return reply(403); }
+
+}
+
+function addLink (request, reply) {
+
+}
+
+function modifyLink (request, reply) {
+
+}
+
+function removeLink (request, reply) {
+
+}
+
 
 module.exports = function (_server) {
     server = _server;
