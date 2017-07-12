@@ -10,7 +10,7 @@
     "test": "lab"
   },
   "engines": {
-    "node": "6.9.x",
+    "node": "6.11.1",
     "npm": "3.10.x"
   },
   "repository": {
