@@ -22,17 +22,28 @@ schema = mongoose.Schema({
         minlength: 6
     },
     links: [{
-        created_at: String,
-        url:        String,
-        html:       String,
-        updatedOn:  String,
-        visited:    Boolean,
-        loading:    Boolean,
-        stars:      Number
+        createdAt:      Date,
+        lastModified:   Date,
+        updatedOn:      Date,
+        url:            String,
+        html:           String,
+        visited:        Boolean,
+        loading:        Boolean,
+        stars:          Number
+    }],
+    deletedLinks: [{
+        createdAt:      Date,
+        lastModified:   Date,
+        updatedOn:      Date,
+        url:            String,
+        html:           String,
+        visited:        Boolean,
+        loading:        Boolean,
+        stars:          Number
     }]
 });
 
-schema.statics.login = function(email, passwordToMatch, cb) {
+schema.statics.login = function (email, passwordToMatch, cb) {
     if (!email || !passwordToMatch) { return cb('missing email or password'); }
 
     User.findOne({email: email}, function (err, user) {

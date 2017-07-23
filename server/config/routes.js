@@ -8,6 +8,7 @@ module.exports = function (config, server) {
 
     require('../controllers/auth.js')(server);
     require('../controllers/app.js')(server);
+    require('../controllers/links.js')(server);
 
     server.route({
         method: 'GET',
