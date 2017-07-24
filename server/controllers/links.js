@@ -16,33 +16,18 @@ function getLinks (request, reply) {
     });
 }
 
-function addLink (request, reply) {
-    if (!request.auth.isAuthenticated) { return reply(403); }
+function modifyLinks (request, reply) {
+    if (!request.auth.isAuthenticated) { return reply(403).code(403); }
 
     User.findOne({_id: request.auth.credentials._id}, function (err, user) {
         if (err) { return reply(Boom.badImplementation(err)); }
         if (!user) { return reply(Boom.badImplementation('user does not exist')); }
-        reply(400);
-    });
-}
 
-function modifyLink (request, reply) {
-    if (!request.auth.isAuthenticated) { return reply(403); }
+        // diff links
 
-    User.findOne({_id: request.auth.credentials._id}, function (err, user) {
-        if (err) { return reply(Boom.badImplementation(err)); }
-        if (!user) { return reply(Boom.badImplementation('user does not exist')); }
-        reply(400);
-    });
-}
-
-function removeLink (request, reply) {
-    if (!request.auth.isAuthenticated) { return reply(403); }
-
-    User.findOne({_id: request.auth.credentials._id}, function (err, user) {
-        if (err) { return reply(Boom.badImplementation(err)); }
-        if (!user) { return reply(Boom.badImplementation('user does not exist')); }
-        reply(400);
+        user.save(function () {
+            reply(user.links);
+        });
     });
 }
 
@@ -52,42 +37,10 @@ module.exports = function (_server) {
 
     [
         {
-            method: 'DELETE',
-            path: '/links',
-            config: {
-                handler: removeLink,
-                auth: {
-                    mode: 'try',
-                    strategy: 'session'
-                },
-                plugins: {
-                    'hapi-auth-cookie': {
-                        redirectTo: false
-                    }
-                }
-            }
-        },
-        {
-            method: 'PUT',
-            path: '/links',
-            config: {
-                handler: addLink,
-                auth: {
-                    mode: 'try',
-                    strategy: 'session'
-                },
-                plugins: {
-                    'hapi-auth-cookie': {
-                        redirectTo: false
-                    }
-                }
-            }
-        },
-        {
             method: 'POST',
             path: '/links',
             config: {
-                handler: modifyLink,
+                handler: modifyLinks,
                 auth: {
                     mode: 'try',
                     strategy: 'session'

@@ -7,6 +7,7 @@ const Vision = require('vision');
 const Handlebars = require('handlebars');
 const AuthCookie = require('hapi-auth-cookie');
 const Https = require('hapi-require-https');
+const Cors = require('hapi-cors');
 
 const server = new Hapi.Server();
 
@@ -23,9 +24,7 @@ module.exports = function (config) {
     }
 
     // register static files plugin
-    server.register(Inert, (err) => {
-        if (err) { throw err; }
-    });
+    server.register(Inert, (err) => { if (err) { throw err; }});
 
     // register Good logging
     server.register({
@@ -44,9 +43,7 @@ module.exports = function (config) {
                 }, 'stdout']
             }
         }
-    }, (err) => {
-        if (err) { throw err; }
-    });
+    }, (err) => { if (err) { throw err; }});
 
     // register templates engine
     server.register(Vision, (err) => {
@@ -62,9 +59,15 @@ module.exports = function (config) {
     });
 
     // register cookie auth
-    server.register(AuthCookie, (err) => {
-        if (err) { throw err; }
-    });
+    server.register(AuthCookie, (err) => { if (err) { throw err; }});
+
+    // register hapi-cors
+    server.register({
+    	register: Cors,
+    	options: {
+    		origins: ['http://localhost:4200']
+    	}
+    }, (err) => { if (err) { throw err; }});
 
     return server;
 };

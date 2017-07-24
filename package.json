@@ -1,7 +1,7 @@
 {
   "name": "updatr-api",
   "version": "0.0.1",
-  "description": "Keep up to date.",
+  "description": "Follow Anything.",
   "main": "server/index.js",
   "directories": {
     "test": "test"
@@ -31,6 +31,7 @@
     "handlebars": "4.0.6",
     "hapi": "16.1.0",
     "hapi-auth-cookie": "6.1.1",
+    "hapi-cors": "^1.0.1",
     "hapi-require-https": "2.1.0",
     "inert": "4.1.0",
     "mongoose": "4.8.6",
