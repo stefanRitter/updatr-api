@@ -2,6 +2,9 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const request = require('request');
+const cheerio = require('cheerio');
+const userAgent = require('../utils/useragent.js');
 const saltRounds = 7;
 
 var schema, User;
@@ -21,26 +24,14 @@ schema = mongoose.Schema({
         maxlength: 70,
         minlength: 6
     },
+    role: String,
     links: [{
-        createdAt:      Date,
-        lastModified:   Date,
-        updatedOn:      Date,
-        url:            String,
-        html:           String,
-        visited:        Boolean,
-        loading:        Boolean,
-        stars:          Number
+        url:     String,
+        visited: Boolean,
+        loading: Boolean,
+        stars:   Number
     }],
-    deletedLinks: [{
-        createdAt:      Date,
-        lastModified:   Date,
-        updatedOn:      Date,
-        url:            String,
-        html:           String,
-        visited:        Boolean,
-        loading:        Boolean,
-        stars:          Number
-    }]
+    htmls: [String]
 });
 
 schema.statics.login = function (email, passwordToMatch, cb) {
@@ -60,26 +51,63 @@ schema.statics.login = function (email, passwordToMatch, cb) {
     });
 };
 
-schema.methods.updateLink = function (newLink) {
-    let index = -1;
-    let url = newLink.url;
-    this.links.forEach(function (link, i) { if (link.url === url) index = i; });
-    if (index > -1) {
-        this.links[index] = newLink;
-    }
-}
-
 schema.methods.addRemoveLink = function (newLink) {
     let index = -1;
     let url = newLink.url;
     this.links.forEach(function (link, i) { if (link.url === url) index = i; });
+
     if (index > -1) {
         // this link will be removed
         this.links.splice(index, 1);
+        this.htmls.splice(index, 1);
     } else {
         // this is a new link
         this.links.unshift(newLink);
+        this.htmls.unshift('');
     }
+}
+
+schema.methods.updateLink = function (newLink, done) {
+    let index = -1;
+    let url = newLink.url;
+    this.links.forEach(function (link, i) { if (link.url === url) index = i; });
+
+    if (index > -1) {
+        let oldLink = this.links[index];
+        this.links[index] = newLink;
+
+        if (!oldLink.visited && newLink.visited) {
+            this.visitLink(index, done);
+        } else {
+            done();
+        }
+    }
+}
+
+schema.methods.visitLink = function (index, done) {
+    request(
+        {
+            method: 'GET',
+            url: this.links[index].url,
+            followAllRedirects: true,
+            timeout: 4000,
+            jar: true,
+            headers: { 'User-Agent': userAgent }
+        },
+        (err, response, body) => {
+            if (err) {
+                console.error(err);
+                return done();
+            }
+            if (response.statusCode !== 200) {
+                console.error('URL STATUS ERROR', this.links[index].url, response.statusCode);
+                return done();
+            }
+            let $ = cheerio.load(body);
+            this.htmls[index] = $('body').text().trim();
+            done();
+        }
+    );
 }
 
 schema.pre('save', function (next) {

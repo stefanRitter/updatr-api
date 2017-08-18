@@ -24,8 +24,9 @@ function updateLink (request, reply) {
         if (!user) { return reply(Boom.badImplementation('user does not exist')); }
 
         var modifiedLink = JSON.parse(request.payload);
-        user.updateLink(modifiedLink);
-        user.save(function () { reply(); });
+        user.updateLink(modifiedLink, function () {
+            user.save(function () { reply(); });
+        });
     });
 }
 

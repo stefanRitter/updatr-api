@@ -2,13 +2,21 @@
 
 const Path = require('path');
 const appPath = Path.join(__dirname, '../static/app/index.html');
+const User = require('mongoose').model('User');
+
 var server = {};
 
 
 function home (request, reply) {
-    // if (request.auth.isAuthenticated) { return reply.file(appPath); }
-    if (request.auth.isAuthenticated) { return reply.view('closed'); }
-    reply.view('index');
+    if (request.auth.isAuthenticated) {
+        User.findOne({_id: request.auth.credentials._id}, function (err, user) {
+            if (err || !user) { return reply.view('index') }
+            if (user.role === 'beta') { return reply.file(appPath); }
+            reply.view('closed');
+        });
+    } else {
+        reply.view('index');
+    }
 }
 
 function updateLinks (request, reply) {
