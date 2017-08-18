@@ -1,18 +1,31 @@
 'use strict';
 
 const User = require('mongoose').model('User');
-const DemoUser = require('../models/DemoUser');
 const Boom = require('boom');
+const demoLinks = require('../models/demoLinks.js');
 
 var server = {};
 
 function getLinks (request, reply) {
-    if (!request.auth.isAuthenticated) { return reply(DemoUser.links); }
+    if (!request.auth.isAuthenticated) { return reply(demoLinks); }
 
     User.findOne({_id: request.auth.credentials._id}, function (err, user) {
         if (err) { return reply(Boom.badImplementation(err)); }
         if (!user) { return reply(Boom.badImplementation('user does not exist')); }
         reply(user.links);
+    });
+}
+
+function updateLink (request, reply) {
+    if (!request.auth.isAuthenticated) { return reply(403).code(403); }
+
+    User.findOne({_id: request.auth.credentials._id}, function (err, user) {
+        if (err) { return reply(Boom.badImplementation(err)); }
+        if (!user) { return reply(Boom.badImplementation('user does not exist')); }
+
+        var modifiedLink = JSON.parse(request.payload);
+        user.updateLink(modifiedLink);
+        user.save(function () { reply(); });
     });
 }
 
@@ -23,7 +36,7 @@ function modifyLinks (request, reply) {
         if (err) { return reply(Boom.badImplementation(err)); }
         if (!user) { return reply(Boom.badImplementation('user does not exist')); }
 
-        // diff links
+        user.links = JSON.parse(request.payload);
 
         user.save(function () {
             reply(user.links);
@@ -41,6 +54,22 @@ module.exports = function (_server) {
             path: '/links',
             config: {
                 handler: modifyLinks,
+                auth: {
+                    mode: 'try',
+                    strategy: 'session'
+                },
+                plugins: {
+                    'hapi-auth-cookie': {
+                        redirectTo: false
+                    }
+                }
+            }
+        },
+        {
+            method: 'PATCH',
+            path: '/links',
+            config: {
+                handler: updateLink,
                 auth: {
                     mode: 'try',
                     strategy: 'session'

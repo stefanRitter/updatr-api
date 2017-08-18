@@ -23,6 +23,19 @@ module.exports = function (config) {
         });
     }
 
+    // register hapi-cors
+    server.register({
+        register: Cors,
+        options: {
+            origins: ['http://localhost:4200'],
+            allowCredentials: 'true',
+            exposeHeaders: ['content-type', 'content-length'],
+            maxAge: 600,
+            methods: ['POST, PUT, GET, OPTIONS, PATCH'],
+            headers: ['Accept', 'Content-Type', 'Authorization']
+        }
+    }, (err) => { if (err) { throw err; }});
+
     // register static files plugin
     server.register(Inert, (err) => { if (err) { throw err; }});
 
@@ -60,14 +73,6 @@ module.exports = function (config) {
 
     // register cookie auth
     server.register(AuthCookie, (err) => { if (err) { throw err; }});
-
-    // register hapi-cors
-    server.register({
-    	register: Cors,
-    	options: {
-    		origins: ['http://localhost:4200']
-    	}
-    }, (err) => { if (err) { throw err; }});
 
     return server;
 };

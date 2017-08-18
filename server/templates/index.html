@@ -11,8 +11,6 @@
     <link rel="shortcut icon" href="/assets/img/icon-48.png">
     <link rel="apple-touch-icon" href="/assets/img/icon-128.png">
 
-    <link rel="stylesheet" href="/static/staticstyles.css">
-
     <style>
         body, html, main {
             width: 100%;
@@ -37,8 +35,13 @@
         .app-header h2 {
             max-width: 600px;
             font-size: 3em;
-            margin: 10px auto 25px;
+            margin: 10px auto 15px;
             font-weight: 300;
+        }
+        .app-header h3 {
+            font-weight: 300;
+            font-size: 23px;
+            margin-bottom: 30px;
         }
         .app-header-title {
             padding: 11px 0;
@@ -73,7 +76,6 @@
             border-radius: 7px;
             font-size: 20px;
             max-width: 320px;
-            text-transform: uppercase;
             letter-spacing: 1px;
             text-transform: uppercase;
             line-height: normal;
@@ -112,10 +114,9 @@
             </svg>
             <span>Updatr</span>
         </h1>
-        <h2>
-            Follow Anything.
-        </h2>
-        <a href="/join" class="join-button">Get Started Free</a>
+        <h2>Follow Anything.</h2>
+        <h3>Know when your favorite sites have new content.</h3>
+        <a href="/join" class="join-button">Get started</a>
         <a href="/login" class="login-button">Sign In</a>
     </header>
 
@@ -125,11 +126,76 @@
         </div>
     </main>
 
+    <style>
+        .footer {
+            border: 0;
+            margin: 0px auto 10px;
+            padding: 10px 0 0 0;
+            text-align: center;
+            max-width: 736px;
+        }
+        .footer-entry {
+            line-height: 1.41666667;
+            font-size: 1em;
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 300;
+            text-align: left;
+            text-decoration: none;
+            text-indent: 0;
+            text-justify: auto;
+            text-outline: none;
+            text-overflow: clip;
+            text-shadow: none;
+            text-transform: none;
+            text-wrap: normal;
+            color: darkgray;
+            font-size: 11px;
+            text-align: center;
+            border-right: 1px solid darkgray;
+            padding: 0px 15px;
+        }
+        .footer-entry.last {
+            border: 0;
+        }
+    </style>
+
     <footer class="footer">
         <a href="/terms" class="footer-entry" target="_blank">Terms of Service</a>
         <a href="/privacy" class="footer-entry" target="_blank">Privacy Policy</a>
         <span class="footer-entry last">2017 Updatr.</span>
     </footer>
+
+    <style>
+        .footer-contact-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #f36c3d;
+            border-radius: 100%;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.5);
+            z-index: 1000;
+            cursor: pointer;
+            text-align: center;
+            line-height: 40px;
+            box-sizing: border-box;
+        }
+        .footer-contact-btn svg {
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+        svg:not(:root) {
+            overflow: hidden;
+        }
+    </style>
+    <a class="footer-contact-btn" href="mailto:help@getupdatr.com">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0V0z" fill="none"/>
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+        </svg>
+    </a>
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

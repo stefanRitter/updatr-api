@@ -60,6 +60,15 @@ schema.statics.login = function (email, passwordToMatch, cb) {
     });
 };
 
+schema.methods.updateLink = function (newLink) {
+    let index = -1;
+    let url = newLink.url;
+    this.links.forEach(function (link, i) { if (link.url === url) index = i; });
+    if (index > -1) {
+        this.links[index] = newLink;
+    }
+}
+
 
 schema.pre('save', function (next) {
     if (this.isNew) {

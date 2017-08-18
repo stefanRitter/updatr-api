@@ -11,6 +11,11 @@ function home (request, reply) {
     reply.view('index');
 }
 
+function updateLinks (request, reply) {
+    if (!request.auth.isAuthenticated) { return reply(403).code(403); }
+    setTimeout(function () { reply(); }, 2000);
+}
+
 
 module.exports = function (_server) {
     server = _server;
@@ -39,6 +44,22 @@ module.exports = function (_server) {
                 }
             }
         },
+        {
+            method: 'GET',
+            path: '/update',
+            config: {
+                handler: updateLinks,
+                auth: {
+                    mode: 'try',
+                    strategy: 'session'
+                },
+                plugins: {
+                    'hapi-auth-cookie': {
+                        redirectTo: false
+                    }
+                }
+            }
+        }
     ]
     .forEach(function (route) { server.route(route); });
 };
