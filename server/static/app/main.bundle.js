@@ -42,7 +42,7 @@ var UpdatrLinkService = (function () {
         // add & persist
         var newLink = new __WEBPACK_IMPORTED_MODULE_3__updatr_link__["a" /* UpdatrLink */](url);
         links.unshift(newLink);
-        this.persistLinks(links, -1);
+        this.persistLinks(links, -1, newLink);
     };
     UpdatrLinkService.prototype.removeUrl = function (url) {
         var links = this.getData();
@@ -51,8 +51,8 @@ var UpdatrLinkService = (function () {
         if (index === -1)
             return;
         // remove & persist
-        links.splice(index, 1);
-        this.persistLinks(links, -1);
+        var removed = links.splice(index, 1)[0];
+        this.persistLinks(links, -1, removed);
     };
     UpdatrLinkService.prototype.toggleReadUrl = function (url) {
         var links = this.getData();
@@ -62,7 +62,7 @@ var UpdatrLinkService = (function () {
             return;
         // udpate & persist
         links[index].visited = true;
-        this.persistLinks(links, index);
+        this.persistLinks(links, index, null);
     };
     UpdatrLinkService.prototype.toggleStarUrl = function (url) {
         var links = this.getData();
@@ -75,7 +75,7 @@ var UpdatrLinkService = (function () {
         if (stars > 2)
             stars = 0;
         links[index].stars = stars;
-        this.persistLinks(links, index);
+        this.persistLinks(links, index, null);
     };
     UpdatrLinkService.prototype.getUnreadReadGroups = function () {
         var links = this.getData();
@@ -112,8 +112,8 @@ var UpdatrLinkService = (function () {
     UpdatrLinkService.prototype.getData = function () {
         return this.STORE.getLinks();
     };
-    UpdatrLinkService.prototype.persistLinks = function (links, index) {
-        this.STORE.persistLinks(links, index);
+    UpdatrLinkService.prototype.persistLinks = function (links, index, link) {
+        this.STORE.persistLinks(links, index, link);
         this.applicationRef.tick();
     };
     UpdatrLinkService.prototype.findUrl = function (url, links) {
@@ -195,20 +195,21 @@ var STORE = (function () {
     STORE.prototype.getLinksToCheck = function () {
         return _linksToCheck;
     };
-    STORE.prototype.persistLinks = function (links, index) {
+    STORE.prototype.persistLinks = function (links, index, link) {
         _links = links;
         var stringified = JSON.stringify(links);
         localStorage['updatr_links_store'] = stringified;
-        // persist new link
+        // persist changes
         var url = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].server + 'links';
         if (index > -1) {
-            var link = JSON.stringify(links[index]);
+            link = JSON.stringify(links[index]);
             this.http.patch(url, link, { withCredentials: true })
                 .subscribe(function (response) { }, function (error) { return handleError(error); });
         }
         else {
-            this.http.post(url, stringified, { withCredentials: true })
-                .subscribe(function (response) { return handleResponse(response); }, function (error) { return handleError(error); });
+            link = JSON.stringify(link);
+            this.http.put(url, link, { withCredentials: true })
+                .subscribe(function (response) { }, function (error) { return handleError(error); });
         }
     };
     STORE.prototype.getLinks = function () {

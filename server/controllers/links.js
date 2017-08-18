@@ -29,18 +29,16 @@ function updateLink (request, reply) {
     });
 }
 
-function modifyLinks (request, reply) {
+function addRemoveLink (request, reply) {
     if (!request.auth.isAuthenticated) { return reply(403).code(403); }
 
     User.findOne({_id: request.auth.credentials._id}, function (err, user) {
         if (err) { return reply(Boom.badImplementation(err)); }
         if (!user) { return reply(Boom.badImplementation('user does not exist')); }
 
-        user.links = JSON.parse(request.payload);
-
-        user.save(function () {
-            reply(user.links);
-        });
+        var modifiedLink = JSON.parse(request.payload);
+        user.addRemoveLink(modifiedLink);
+        user.save(function () { reply(); });
     });
 }
 
@@ -50,10 +48,10 @@ module.exports = function (_server) {
 
     [
         {
-            method: 'POST',
+            method: 'PATCH',
             path: '/links',
             config: {
-                handler: modifyLinks,
+                handler: updateLink,
                 auth: {
                     mode: 'try',
                     strategy: 'session'
@@ -66,10 +64,10 @@ module.exports = function (_server) {
             }
         },
         {
-            method: 'PATCH',
+            method: 'PUT',
             path: '/links',
             config: {
-                handler: updateLink,
+                handler: addRemoveLink,
                 auth: {
                     mode: 'try',
                     strategy: 'session'

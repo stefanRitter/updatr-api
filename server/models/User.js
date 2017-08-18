@@ -69,6 +69,18 @@ schema.methods.updateLink = function (newLink) {
     }
 }
 
+schema.methods.addRemoveLink = function (newLink) {
+    let index = -1;
+    let url = newLink.url;
+    this.links.forEach(function (link, i) { if (link.url === url) index = i; });
+    if (index > -1) {
+        // this link will be removed
+        this.links.splice(index, 1);
+    } else {
+        // this is a new link
+        this.links.unshift(newLink);
+    }
+}
 
 schema.pre('save', function (next) {
     if (this.isNew) {
