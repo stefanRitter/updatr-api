@@ -2,6 +2,7 @@
 
 const Path = require('path');
 const appPath = Path.join(__dirname, '../static/app/index.html');
+const demoLinks = require('../models/demoLinks.js');
 const User = require('mongoose').model('User');
 
 var server = {};
@@ -24,6 +25,10 @@ function updateLinks (request, reply) {
     setTimeout(function () { reply(); }, 2000);
 }
 
+function getDemoLinks (request, reply) {
+    return reply(demoLinks);
+}
+
 
 module.exports = function (_server) {
     server = _server;
@@ -35,6 +40,11 @@ module.exports = function (_server) {
             handler: {
                 file: appPath
             }
+        },
+        {
+            method: 'GET',
+            path: '/demolinks',
+            handler: getDemoLinks
         },
         {
             method: ['GET'],

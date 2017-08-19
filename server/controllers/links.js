@@ -2,12 +2,11 @@
 
 const User = require('mongoose').model('User');
 const Boom = require('boom');
-const demoLinks = require('../models/demoLinks.js');
 
 var server = {};
 
 function getLinks (request, reply) {
-    if (!request.auth.isAuthenticated) { return reply(demoLinks); }
+    if (!request.auth.isAuthenticated) { return reply(403).code(403); }
 
     User.findOne({_id: request.auth.credentials._id}, function (err, user) {
         if (err) { return reply(Boom.badImplementation(err)); }
