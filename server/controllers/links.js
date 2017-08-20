@@ -68,13 +68,7 @@ function getLinkCount (request, reply) {
         }}
     ], function (err, group) {
         if (err) { return reply(Boom.badImplementation(err)); }
-        let count = '';
-        if (group[0].count > 10) {
-            count = '10+';
-        } else if (group[0].count > 0) {
-            count = group[0].count;
-        }
-        return reply(count);
+        return reply(group[0].count > 0 ? group[0].count : '');
     });
 }
 
