@@ -70,7 +70,7 @@ function join (request, reply) {
 
 function logout (request, reply) {
     request.cookieAuth.clear();
-    return reply.redirect('/');
+    reply.view('logout');
 }
 
 
