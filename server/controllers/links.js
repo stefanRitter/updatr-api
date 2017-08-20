@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('mongoose').model('User');
+const ObjectId = require('mongoose').Types.ObjectId;
 const Boom = require('boom');
 
 var server = {};
@@ -11,7 +12,7 @@ function getLinks (request, reply) {
     User.findOne({_id: request.auth.credentials._id}, function (err, user) {
         if (err) { return reply(Boom.badImplementation(err)); }
         if (!user) { return reply(Boom.badImplementation('user does not exist')); }
-        reply(user.links);
+        reply({uid: user._id, links: user.links});
     });
 }
 
@@ -42,6 +43,34 @@ function addRemoveLink (request, reply) {
     });
 }
 
+function getLinkCount (request, reply) {
+    if (!ObjectId.isValid(request.query.uid)) {
+        return reply(403).code(403);
+    }
+
+    User.aggregate([
+        {$match: { _id: ObjectId(request.query.uid)}},
+        {$group: {
+            "_id": null,
+            "count": {
+                "$sum": {
+                    "$size": {
+                        "$filter": {
+                            "input": "$links",
+                            "as": "el",
+                            "cond": {
+                                "$eq": [ "$$el.visited", false ]
+                            }
+                        }
+                    }
+                }
+            }
+        }}
+    ], function (err, group) {
+        if (err) { return reply(Boom.badImplementation(err)); }
+        return reply(group[0].count);
+    });
+}
 
 module.exports = function (_server) {
     server = _server;
@@ -93,6 +122,13 @@ module.exports = function (_server) {
                         redirectTo: false
                     }
                 }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/linkcount',
+            config: {
+                handler: getLinkCount
             }
         }
     ]

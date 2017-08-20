@@ -168,18 +168,31 @@ _links.forEach(function (link) {
 });
 // handle http response
 function handleResponse(response) {
-    _links = JSON.parse(response._body);
-    localStorage['updatr_links_store'] = response._body;
+    var body = JSON.parse(response._body);
+    _links = body.links;
+    localStorage['updatr_links_store'] = JSON.stringify(_links);
+    document.cookie = 'uid=' + body.uid;
 }
 function handleError(err) {
-    console.error('HTTP ERROR', err);
+    console.log(err.status);
+    if (err.status === 403) {
+    }
+    else {
+        console.error('HTTP ERROR', err);
+    }
 }
 // expose data access
 var STORE = (function () {
     function STORE(http) {
         this.http = http;
         // get links
-        var url = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].server + 'links';
+        var url = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].server;
+        if (location.pathname === '/demo') {
+            url += 'demolinks';
+        }
+        else {
+            url += 'links';
+        }
         this.http.get(url, { withCredentials: true })
             .subscribe(function (response) { return handleResponse(response); }, function (error) { return handleError(error); });
     }

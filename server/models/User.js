@@ -28,7 +28,6 @@ schema = mongoose.Schema({
     links: [{
         url:     String,
         visited: Boolean,
-        loading: Boolean,
         stars:   Number
     }],
     htmls: [String]
