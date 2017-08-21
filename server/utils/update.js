@@ -1,44 +1,61 @@
-var headers = new Headers({ 'Content-Type': 'application/json' });
-var options = new RequestOptions({ headers: headers });
-var http = this.http;
-var handleError = this.handleError;
 
-var that = this;
-var handleResponse = this.handleResponse;
+const Batch = require('batch');
+const cheerio = require('cheerio');
+const request = require('request');
+const similarity = require('similarity');
+const userAgent = require('./useragent.js');
 
-var batch = new Batch();
 
-visitedLinks.forEach(function(link:UpdatrLink) {
-    batch.push(function(done) {
-        http.get(link.url, options).subscribe(
-            response => handleResponse.call(that, response, link, done),
-            error => handleError.call(that, error, done)
-        );
+module.exports = function (user, userIsDone) {
+    var batch = new Batch();
+    batch.concurrency(4);
+
+    user.links.forEach(function (link, index) {
+        batch.push(function (batchDone) {
+            console.log(user.htmls);
+
+            if (link.visited) {
+                request(
+                    {
+                        method: 'GET',
+                        url: link.url,
+                        followAllRedirects: true,
+                        timeout: 4000,
+                        jar: true,
+                        headers: { 'User-Agent': userAgent }
+                    },
+                    (err, response, body) => {
+                        if (err) {
+                            console.error(err);
+                            return batchDone();
+                        }
+                        if (response.statusCode !== 200) {
+                            console.error('URL STATUS ERROR', link.url, response.statusCode);
+                            return batchDone();
+                        }
+
+                        let $ = cheerio.load(body);
+                        let newHtml = $('body').text().trim();
+                        let oldHtml = user.htmls[index].bodyText || '';
+                        let sim = similarity(oldHtml, newHtml);
+
+                        if (sim < 0.9) {
+                            user.links[index].visited = false;
+                            user.htmls[index].bodyText = newHtml;
+                        }
+                        batchDone();
+                    }
+                );
+            } else {
+                batchDone();
+            }
+        });
     });
-});
 
-batch.onProgress(function (count, link) {
-    that.STORE.setProgressCount(count);
-    that.applicationRef.tick();
-});
-
-batch.onEnd(function() { that.STORE.setUpdating(false); });
-batch.start();
-
-private handleResponse(response, newLink, done) {
-    if (response.status === 200) {
-        newLink.loading = false;
-        let newHtml = response._body.split('<body')[1];
-        let sim = similarity(newLink.html, newHtml)
-        console.log('match:', newLink.url, sim);
-        if (sim < 0.9) {
-            newLink.html = newHtml;
-            newLink.updatedOn = (new Date()).toString();
-            newLink.visited = false;
-        }
-        this.updateLink(newLink);
-    } else {
-        this.handleError(response, null);
-    }
-    if (done) {done(newLink);}
-}
+    batch.on('progress', function () {});
+    batch.end(function() {
+        user.save(function (err) {
+            userIsDone();
+        });
+    });
+};

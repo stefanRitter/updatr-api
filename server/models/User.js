@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const request = require('request');
 const cheerio = require('cheerio');
 const userAgent = require('../utils/useragent.js');
+const updateLinks = require('../utils/update.js');
 const saltRounds = 7;
 
 var schema, User;
@@ -30,7 +31,7 @@ schema = mongoose.Schema({
         visited: Boolean,
         stars:   Number
     }],
-    htmls: [String]
+    htmls: [{bodyText: String}]
 });
 
 schema.statics.login = function (email, passwordToMatch, cb) {
@@ -62,7 +63,7 @@ schema.methods.addRemoveLink = function (newLink) {
     } else {
         // this is a new link
         this.links.unshift(newLink);
-        this.htmls.unshift('');
+        this.htmls.unshift({bodyText: ''});
     }
 }
 
@@ -103,15 +104,15 @@ schema.methods.visitLink = function (index, done) {
                 return done();
             }
             let $ = cheerio.load(body);
-            this.htmls[index] = $('body').text().trim();
+            this.htmls[index] = this.htmls[index] || {};
+            this.htmls[index].bodyText = $('body').text().trim();
             done();
         }
     );
 }
 
 schema.methods.updateLinks = function (done) {
-    console.log(this.email);
-    done();
+    updateLinks(this, done);
 };
 
 schema.pre('save', function (next) {

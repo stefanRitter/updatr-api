@@ -32,7 +32,7 @@ User.find({}, function (err, users) {
     batch.on('progress', function () {});
 
     batch.end(function() {
-        console.log('done', users.length);
+        console.log('cronjob done, num users:', users.length);
         process.exit(0);
     });
 });
