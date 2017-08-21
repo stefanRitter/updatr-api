@@ -109,6 +109,11 @@ schema.methods.visitLink = function (index, done) {
     );
 }
 
+schema.methods.updateLinks = function (done) {
+    console.log(this.email);
+    done();
+};
+
 schema.pre('save', function (next) {
     if (this.isNew) {
         bcrypt.hash(this.password, saltRounds, function (err, hash) {
