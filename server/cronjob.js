@@ -21,7 +21,7 @@ User.find({}, function (err, users) {
 
     var batch = new Batch();
 
-    batch.concurrency(4);
+    batch.concurrency(1);
 
     users.forEach(function (user) {
         batch.push(function (done) {

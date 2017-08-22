@@ -14,6 +14,8 @@ module.exports = function (user, userIsDone) {
         batch.push(function (batchDone) {
 
             if (link.visited) {
+                console.log('requesting:', link.url);
+
                 request(
                     {
                         method: 'GET',
@@ -58,7 +60,7 @@ module.exports = function (user, userIsDone) {
     batch.end(function() {
         user.save(function (err) {
             if (err) { console.log('USER SAVE ERROR', user.email); }
-            userIsDone(user.email);
+            userIsDone();
         });
     });
 };
