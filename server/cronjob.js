@@ -29,12 +29,17 @@ User.find({}, function (err, users) {
         });
     })
 
-    batch.on('progress', function (email) {
-        console.log('saved:', email);
+    batch.on('progress', function (update) {
+        console.log('Users saved:', update.percent);
     });
 
     batch.end(function() {
-        console.log('cronjob done, num users:', users.length);
+        console.log('Cronjob done, num users:', users.length);
         process.exit(0);
     });
 });
+
+
+// TODO: investigate
+// https://techcrunch.com/artificial-intelligence-2/ 0
+// URL STATUS ERROR https://mattermark.com/blog/ 403

@@ -14,8 +14,6 @@ module.exports = function (user, userIsDone) {
         batch.push(function (batchDone) {
 
             if (link.visited) {
-                console.log('requesting:', link.url);
-
                 request(
                     {
                         method: 'GET',
