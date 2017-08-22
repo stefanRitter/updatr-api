@@ -39,6 +39,8 @@ module.exports = function (user, userIsDone) {
                         let oldHtml = user.htmls[index].bodyText || '';
                         let sim = similarity(oldHtml, newHtml);
 
+                        console.log(link.url, sim);
+
                         if (sim < 0.9) {
                             user.links[index].visited = false;
                             user.htmls[index].bodyText = newHtml;
@@ -55,6 +57,7 @@ module.exports = function (user, userIsDone) {
     batch.on('progress', function () {});
     batch.end(function() {
         user.save(function (err) {
+            if (err) console.log('USER SAVE ERROR', user.email);
             userIsDone();
         });
     });
