@@ -29,7 +29,9 @@ User.find({}, function (err, users) {
         });
     })
 
-    batch.on('progress', function () {});
+    batch.on('progress', function (email) {
+        console.log('saved:', email);
+    });
 
     batch.end(function() {
         console.log('cronjob done, num users:', users.length);

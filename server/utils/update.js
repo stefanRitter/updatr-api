@@ -12,7 +12,6 @@ module.exports = function (user, userIsDone) {
 
     user.links.forEach(function (link, index) {
         batch.push(function (batchDone) {
-            console.log(user.htmls);
 
             if (link.visited) {
                 request(
@@ -58,8 +57,8 @@ module.exports = function (user, userIsDone) {
     batch.on('progress', function () {});
     batch.end(function() {
         user.save(function (err) {
-            if (err) console.log('USER SAVE ERROR', user.email);
-            userIsDone();
+            if (err) { console.log('USER SAVE ERROR', user.email); }
+            userIsDone(user.email);
         });
     });
 };
