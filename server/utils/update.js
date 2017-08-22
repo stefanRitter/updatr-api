@@ -36,6 +36,7 @@ module.exports = function (user, userIsDone) {
 
                         let $ = cheerio.load(body);
                         let newHtml = $('body').text().trim();
+                        user.htmls[index] = user.htmls[index] || {};
                         let oldHtml = user.htmls[index].bodyText || '';
                         let sim = similarity(oldHtml, newHtml);
 
