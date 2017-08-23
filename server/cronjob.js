@@ -30,7 +30,7 @@ User.find({}, function (err, users) {
     })
 
     batch.on('progress', function (update) {
-        console.log('Users saved:', update.percent);
+        console.log('Users saved:', update.percent, '%');
     });
 
     batch.end(function() {
