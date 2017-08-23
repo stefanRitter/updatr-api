@@ -159,7 +159,7 @@ var _links = [];
 var _linksToCheck = 0;
 var _getting = true;
 // prepare data
-if (!localStorage['updatr_links_store']) {
+if (!localStorage['updatr_links_store'] || localStorage['updatr_links_store'] === 'undefined') {
     localStorage['updatr_links_store'] = JSON.stringify([]);
 }
 _links = JSON.parse(localStorage['updatr_links_store']);
@@ -171,7 +171,9 @@ function handleResponse(response) {
     var body = JSON.parse(response._body);
     _links = body.links;
     localStorage['updatr_links_store'] = JSON.stringify(_links);
-    document.cookie = 'uid=' + body.uid;
+    if (body.uid) {
+        document.cookie = 'uid=' + body.uid;
+    }
 }
 function handleError(err) {
     console.log(err.status);

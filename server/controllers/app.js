@@ -26,7 +26,7 @@ function updateLinks (request, reply) {
 }
 
 function getDemoLinks (request, reply) {
-    return reply(demoLinks);
+    return reply({links: demoLinks});
 }
 
 
