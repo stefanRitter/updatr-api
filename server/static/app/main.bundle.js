@@ -28,7 +28,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var UpdatrLinkService = (function () {
     function UpdatrLinkService(applicationRef, http, store) {
-        this.firstSort = true;
         this.applicationRef = applicationRef;
         this.http = http;
         this.STORE = store;
@@ -79,12 +78,6 @@ var UpdatrLinkService = (function () {
     };
     UpdatrLinkService.prototype.getUnreadReadGroups = function () {
         var links = this.getData();
-        if (this.firstSort) {
-            links = links.sort(function (linkA, linkB) {
-                return linkB.stars - linkA.stars;
-            });
-            this.firstSort = false;
-        }
         var unread = new __WEBPACK_IMPORTED_MODULE_4__updatr_link_group__["a" /* UpdatrLinkGroup */]();
         var read = new __WEBPACK_IMPORTED_MODULE_4__updatr_link_group__["a" /* UpdatrLinkGroup */]();
         unread.links = links.filter(function (link) {
@@ -169,7 +162,9 @@ _links.forEach(function (link) {
 // handle http response
 function handleResponse(response) {
     var body = JSON.parse(response._body);
-    _links = body.links;
+    _links = body.links.sort(function (linkA, linkB) {
+        return linkB.stars - linkA.stars;
+    });
     localStorage['updatr_links_store'] = JSON.stringify(_links);
     if (body.uid) {
         var d = new Date();
