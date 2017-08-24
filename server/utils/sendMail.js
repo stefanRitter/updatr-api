@@ -9,7 +9,6 @@ if (process.env.NODE_ENV === 'development') {
 var sendgrid = require("sendgrid")(process.env.SENDGRID_APIKEY);
 
 module.exports = function (text, done) {
-    console.log('sending report...:', text);
     var request = sendgrid.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -29,7 +28,7 @@ module.exports = function (text, done) {
             },
             content: [
                 {
-                    type: 'text/plain',
+                    type: 'text/html',
                     value: text
                 }
             ]

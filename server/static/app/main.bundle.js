@@ -172,20 +172,16 @@ function handleResponse(response) {
     _links = body.links;
     localStorage['updatr_links_store'] = JSON.stringify(_links);
     if (body.uid) {
-        document.cookie = 'uid=' + body.uid;
-    }
-}
-function handleError(err) {
-    console.log(err.status);
-    if (err.status === 403) {
-    }
-    else {
-        console.error('HTTP ERROR', err);
+        var d = new Date();
+        d.setTime(d.getTime() + (360 * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = 'uid=' + body.uid + ';' + expires;
     }
 }
 // expose data access
 var STORE = (function () {
     function STORE(http) {
+        var _this = this;
         this.http = http;
         // get links
         var url = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].server;
@@ -196,7 +192,7 @@ var STORE = (function () {
             url += 'links';
         }
         this.http.get(url, { withCredentials: true })
-            .subscribe(function (response) { return handleResponse(response); }, function (error) { return handleError(error); });
+            .subscribe(function (response) { return handleResponse(response); }, function (error) { return _this.handleError(error); });
     }
     STORE.prototype.setUpdating = function (updating) {
         _updating = updating;
@@ -211,6 +207,7 @@ var STORE = (function () {
         return _linksToCheck;
     };
     STORE.prototype.persistLinks = function (links, index, link) {
+        var _this = this;
         _links = links;
         var stringified = JSON.stringify(links);
         localStorage['updatr_links_store'] = stringified;
@@ -219,16 +216,19 @@ var STORE = (function () {
         if (index > -1) {
             link = JSON.stringify(links[index]);
             this.http.patch(url, link, { withCredentials: true })
-                .subscribe(function (response) { }, function (error) { return handleError(error); });
+                .subscribe(function (response) { }, function (error) { return _this.handleError(error); });
         }
         else {
             link = JSON.stringify(link);
             this.http.put(url, link, { withCredentials: true })
-                .subscribe(function (response) { }, function (error) { return handleError(error); });
+                .subscribe(function (response) { }, function (error) { return _this.handleError(error); });
         }
     };
     STORE.prototype.getLinks = function () {
         return _links;
+    };
+    STORE.prototype.handleError = function (error) {
+        console.error('HTTP ERROR', error);
     };
     STORE = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
@@ -662,7 +662,7 @@ module.exports = ".app-main {\n    max-width: 800px;\n    margin: auto;\n    pad
 /***/ 465:
 /***/ (function(module, exports) {
 
-module.exports = ".link-adder {\n    box-shadow: 0 0 0 -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.14), 0 0 3px 0 rgba(0,0,0,.12);\n    padding: 6px 15px 6px 22px;\n    border-top-right-radius: 0;\n    border-top-left-radius: 0;\n    border-bottom-right-radius: 8px;\n    border-bottom-left-radius: 8px;\n    border: 2px solid #f36c3d;\n    overflow: hidden;\n    margin: auto;\n    max-width: 800px;\n    -webkit-transform: translateY(-155px);\n            transform: translateY(-155px);\n    -webkit-transition: -webkit-transform 0.2s ease-in-out;\n    transition: -webkit-transform 0.2s ease-in-out;\n    transition: transform 0.2s ease-in-out;\n    transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;\n    will-change: transform;\n}\n.link-adder.show {\n    -webkit-transform: translateY(-2px);\n            transform: translateY(-2px);\n}\n\n.link-adder-container {\n    width: calc(100% - 45px);\n    border: 0;\n    margin: 0;\n    padding: 0;\n    position: relative;\n    float:left;\n}\n.link-adder-container input {\n    border: 0;\n    border-bottom: 1px solid darkgray;\n    outline: 0;\n    display: block;\n    width: 100%;\n    position: absolute;\n    top: 12px;\n    font-size: 18px;\n}\n.link-adder-container label {\n    font-size: 10px;\n    font-weight: 300;\n    position: absolute;\n    top: 0;\n    left: 0;\n    color: darkgray;\n}\n\n.link-adder-button {\n    float:right;\n    cursor: pointer;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    outline: 0;\n    border: 0;\n    background: transparent;\n    display: inline-block;\n    white-space: nowrap;\n    text-decoration: none;\n    vertical-align: middle;\n    font-family: Roboto,\"Helvetica Neue\",sans-serif;\n    font-weight: 500;\n    color: currentColor;\n    text-align: center;\n    margin: 0;\n    padding: 2px 0 0;\n    border-radius: 2px;\n    margin-left: 6px;\n}\n.link-adder-button i {\n    font-size: 35px;\n    color: darkgray;\n}\n"
+module.exports = ".link-adder {\n    padding: 6px 15px 6px 22px;\n    border-top-right-radius: 0;\n    border-top-left-radius: 0;\n    border-bottom-right-radius: 8px;\n    border-bottom-left-radius: 8px;\n    border: 2px solid #f36c3d;\n    border-top: 0;\n    overflow: hidden;\n    margin: auto;\n    max-width: 800px;\n    height: 35px;\n    -webkit-transform: translateY(-50px);\n            transform: translateY(-50px);\n    -webkit-transition: -webkit-transform 0.1s ease-in-out;\n    transition: -webkit-transform 0.1s ease-in-out;\n    transition: transform 0.1s ease-in-out;\n    transition: transform 0.1s ease-in-out, -webkit-transform 0.1s ease-in-out;\n    will-change: transform;\n}\n.link-adder.show {\n    -webkit-transform: translateY(-2px);\n            transform: translateY(-2px);\n}\n\n.link-adder-container {\n    width: calc(100% - 45px);\n    border: 0;\n    margin: 0;\n    padding: 0;\n    position: relative;\n    float:left;\n}\n.link-adder-container input {\n    border: 0;\n    border-bottom: 1px solid darkgray;\n    outline: 0;\n    display: block;\n    width: 100%;\n    position: absolute;\n    top: 12px;\n    font-size: 18px;\n}\n.link-adder-container label {\n    font-size: 10px;\n    font-weight: 300;\n    position: absolute;\n    top: 0;\n    left: 0;\n    color: darkgray;\n}\n\n.link-adder-button {\n    float:right;\n    cursor: pointer;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    outline: 0;\n    border: 0;\n    background: transparent;\n    display: inline-block;\n    white-space: nowrap;\n    text-decoration: none;\n    vertical-align: middle;\n    font-family: Roboto,\"Helvetica Neue\",sans-serif;\n    font-weight: 500;\n    color: currentColor;\n    text-align: center;\n    margin: 0;\n    padding: 2px 0 0;\n    border-radius: 2px;\n    margin-left: 6px;\n}\n.link-adder-button i {\n    font-size: 35px;\n    color: darkgray;\n}\n"
 
 /***/ }),
 

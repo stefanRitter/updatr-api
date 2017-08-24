@@ -11,11 +11,10 @@ module.exports = function (user, userIsDone) {
     var batch = new Batch();
     batch.concurrency(4);
 
-    var log = '\n\nuser: '+user.email;
+    var log = '<br><br>user: '+user.email;
 
     user.links.forEach(function (link, index) {
         batch.push(function (batchDone) {
-
             if (link.visited) {
                 request(
                     {
@@ -29,12 +28,12 @@ module.exports = function (user, userIsDone) {
                     (err, response, body) => {
                         if (err) {
                             console.error(err);
-                            log += '\nURL ERROR '+err;
+                            log += '<br>URL ERROR '+link.url+' '+err;
                             return batchDone();
                         }
                         if (response.statusCode !== 200) {
                             console.error('URL STATUS ERROR', link.url, response.statusCode);
-                            log += '\nURL STATUS ERROR '+link.url+' '+response.statusCode;
+                            log += '<br>URL STATUS ERROR '+link.url+' '+response.statusCode;
                             return batchDone();
                         }
 
@@ -45,7 +44,7 @@ module.exports = function (user, userIsDone) {
                         let sim = similarity(oldHtml, newHtml);
 
                         console.log(link.url, sim);
-                        log += '\n'+link.url+' '+sim;
+                        log += '<br>'+link.url+' '+sim;
 
                         if (sim < 0.9) {
                             user.links[index].visited = false;
@@ -65,7 +64,7 @@ module.exports = function (user, userIsDone) {
         user.save(function (err) {
             if (err) {
                 console.log('USER SAVE ERROR', user.email);
-                log += '\nUSER SAVE ERROR '+user.email;
+                log += '<br><br>USER SAVE ERROR '+user.email;
             }
             sendMail(log, userIsDone);
         });
