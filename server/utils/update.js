@@ -46,7 +46,7 @@ module.exports = function (user, userIsDone) {
                         console.log(link.url, sim);
                         log += '<br>'+link.url+' '+sim;
 
-                        if (sim < 0.9) {
+                        if (sim < 0.95) {
                             user.links[index].visited = false;
                             user.htmls[index].bodyText = newHtml;
                         }
