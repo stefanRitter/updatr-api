@@ -22,6 +22,7 @@ User.find({}, function (err, users) {
     if (!users) { throw 'no users found!'; }
 
     var batch = new Batch();
+    var timestamp = Date.now();
 
     batch.concurrency(1);
 
@@ -37,6 +38,7 @@ User.find({}, function (err, users) {
 
     batch.end(function() {
         console.log('Cronjob done, num users:', users.length);
+        console.log('Cronjob ran for:', Date.now()-timestamp, 'ms');
         process.exit(0);
     });
 });
