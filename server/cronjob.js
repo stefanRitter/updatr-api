@@ -27,6 +27,7 @@ User.find({}, function (err, users) {
     batch.concurrency(1);
 
     users.forEach(function (user) {
+        if (user.role !== 'beta') return;
         batch.push(function (done) {
             user.updateLinks(done);
         });
@@ -45,5 +46,4 @@ User.find({}, function (err, users) {
 
 
 // TODO: investigate
-// https://techcrunch.com/artificial-intelligence-2/ 0
 // URL STATUS ERROR https://mattermark.com/blog/ 403

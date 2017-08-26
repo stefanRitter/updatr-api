@@ -23,6 +23,7 @@ module.exports = function (user, userIsDone) {
                         followAllRedirects: true,
                         timeout: 6000,
                         jar: true,
+                        pool: false,
                         headers: { 'User-Agent': userAgent }
                     },
                     (err, response, body) => {
