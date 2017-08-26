@@ -21,7 +21,7 @@ module.exports = function (user, userIsDone) {
                         method: 'GET',
                         url: link.url,
                         followAllRedirects: true,
-                        timeout: 6000,
+                        timeout: 15000,
                         jar: true,
                         pool: false,
                         headers: { 'User-Agent': userAgent }
