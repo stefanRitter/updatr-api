@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.UV_THREADPOOL_SIZE = 128;
+
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 if (process.env.NODE_ENV === 'development') {
