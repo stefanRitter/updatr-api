@@ -2,11 +2,11 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const request = require('request');
-const cheerio = require('cheerio');
-const userAgent = require('../utils/useragent.js');
 const updateLinks = require('../utils/update.js');
 const saltRounds = 7;
+
+const Link = require('mongoose').model('Link');
+
 
 var schema, User;
 
@@ -85,30 +85,16 @@ schema.methods.updateLink = function (newLink, done) {
 }
 
 schema.methods.visitLink = function (index, done) {
-    request(
-        {
-            method: 'GET',
-            url: this.links[index].url,
-            followAllRedirects: true,
-            timeout: 4000,
-            jar: true,
-            headers: { 'User-Agent': userAgent }
-        },
-        (err, response, body) => {
-            if (err) {
-                console.error(err);
-                return done();
-            }
-            if (response.statusCode !== 200) {
-                console.error('URL STATUS ERROR', this.links[index].url, response.statusCode);
-                return done();
-            }
-            let $ = cheerio.load(body);
-            this.htmls[index] = this.htmls[index] || {};
-            this.htmls[index].bodyText = $('body').text().trim();
-            done();
+    var newLink = new Link({url: this.links[index].url});
+    newLink.update((err) => {
+        if (err) {
+            console.error(err);
+            return done();
         }
-    );
+        this.htmls[index] = this.htmls[index] || {};
+        this.htmls[index].bodyText = newLink.html;
+        done();
+    });
 }
 
 schema.methods.updateLinks = function (done) {
