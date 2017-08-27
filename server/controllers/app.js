@@ -20,11 +20,6 @@ function home (request, reply) {
     }
 }
 
-function updateLinks (request, reply) {
-    if (!request.auth.isAuthenticated) { return reply(403).code(403); }
-    setTimeout(function () { reply(); }, 2000);
-}
-
 function getDemoLinks (request, reply) {
     return reply({links: demoLinks});
 }
@@ -51,22 +46,6 @@ module.exports = function (_server) {
             path: '/',
             config: {
                 handler: home,
-                auth: {
-                    mode: 'try',
-                    strategy: 'session'
-                },
-                plugins: {
-                    'hapi-auth-cookie': {
-                        redirectTo: false
-                    }
-                }
-            }
-        },
-        {
-            method: 'GET',
-            path: '/update',
-            config: {
-                handler: updateLinks,
                 auth: {
                     mode: 'try',
                     strategy: 'session'
