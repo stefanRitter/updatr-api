@@ -51,7 +51,7 @@ schema.statics.login = function (email, passwordToMatch, cb) {
     });
 };
 
-schema.methods.addRemoveLink = function (newLink) {
+schema.methods.addRemoveLink = function (newLink, done) {
     let index = -1;
     let url = newLink.url;
     this.links.forEach(function (link, i) { if (link.url === url) index = i; });
@@ -85,15 +85,20 @@ schema.methods.updateLink = function (newLink, done) {
 }
 
 schema.methods.visitLink = function (index, done) {
-    var newLink = new Link({url: this.links[index].url});
-    newLink.update((err) => {
-        if (err) {
-            console.error(err);
-            return done();
-        }
-        this.htmls[index] = this.htmls[index] || {};
-        this.htmls[index].bodyText = newLink.html;
-        done();
+    var query = {url: this.links[index].url};
+
+    Link.findOne(query, (err, newLink) => {
+        if (err) { console.error(err); return done(); }
+
+        newLink = newLink || new Link(query);
+        newLink.update((err) => {
+            if (err) {
+                console.error(err); return done();
+            }
+            this.htmls[index] = this.htmls[index] || {};
+            this.htmls[index].bodyText = newLink.html;
+            done();
+        });
     });
 }
 

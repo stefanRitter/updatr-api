@@ -25,7 +25,7 @@ function updateLink (request, reply) {
 
         var modifiedLink = JSON.parse(request.payload);
         user.updateLink(modifiedLink, function () {
-            user.save(function () { reply(); });
+            user.save(function () { reply(200); });
         });
     });
 }
@@ -39,7 +39,7 @@ function addRemoveLink (request, reply) {
 
         var modifiedLink = JSON.parse(request.payload);
         user.addRemoveLink(modifiedLink);
-        user.save(function () { reply(); });
+        user.save(function () { reply(200); });
     });
 }
 

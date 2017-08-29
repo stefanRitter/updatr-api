@@ -15,15 +15,14 @@ schema = mongoose.Schema({
         index: true,
         required: true
     },
-    updated: {
-        type: Boolean,
-        default: false
-    },
+    updated: String,
     html: String
 });
 
 schema.methods.update = function (done) {
-    if (this.updated) { return done(); }
+    if (this.updated === (new Date()).toDateString()) {
+        return done(); // was already updated today
+    }
 
     var log = '';
 
@@ -51,9 +50,14 @@ schema.methods.update = function (done) {
 
             let $ = cheerio.load(body);
             this.html = $('body').text().trim();
+            this.updated = (new Date()).toDateString();
 
-            this.save(function () {
-                done();
+            this.save(function (err) {
+                if (err) {
+                    console.error(err);
+                    log += '<br>LINK SAVE ERROR '+link.url+' '+err;
+                }
+                done(log);
             });
         }
     );
