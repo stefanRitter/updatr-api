@@ -203,5 +203,20 @@
         ga('create', 'UA-92910347-1', 'auto');
         ga('send', 'pageview');
     </script>
+
+    <a href="https://chrome.google.com/webstore/detail/upadtr/oncabemdkmlkjpdhedgkcocpcbileglm"
+       id="chromebadge" style="display:none;position:fixed;z-index:10;bottom:15px;left:15px;">
+        <img src="/assets/img/chromebadge.png" alt="chromestorebadge" style="width:200px;">
+    </a>
+    <script>
+        var ua = navigator.userAgent;
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+            // is mobile
+        } else if(/Chrome/i.test(ua)) {
+            // is desktop chrome
+            var badge = document.querySelector('#chromebadge');
+            badge.style.display = 'block';
+        }
+    </script>
 </body>
 </html>
