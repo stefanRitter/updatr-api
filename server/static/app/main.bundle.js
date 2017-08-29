@@ -470,8 +470,9 @@ var LinkAdderComponent = (function () {
     }
     LinkAdderComponent.prototype.ngOnInit = function () { };
     LinkAdderComponent.prototype.ngDoCheck = function () {
+        var _this = this;
         if (this.show && this.firstTime) {
-            this.vc.nativeElement.focus();
+            setTimeout(function () { return _this.vc.nativeElement.focus(); }, 105);
             this.firstTime = false;
         }
         if (!this.show)
