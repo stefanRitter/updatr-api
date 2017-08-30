@@ -19,7 +19,7 @@ module.exports = [
     {"visited":true,"stars":0,"url":"https://blog.angel.co/"},
     {"visited":false,"stars":0,"url":"https://overcast.fm/itunes1215439780/equity"},
     {"visited":true,"stars":0,"url":"http://blog.samaltman.com/"},
-    {"visited":true,"stars":0,"url":"https://techcrunch.com/"},
+    {"visited":true,"stars":1,"url":"https://machinelearning.apple.com/"},
     {"visited":true,"stars":0,"url":"https://www.theinformation.com/"},
     {"visited":true,"stars":0,"url":"http://www.feld.com/"},
     {"visited":false,"stars":0,"url":"https://nextgenvp.com/portfolio/"},
