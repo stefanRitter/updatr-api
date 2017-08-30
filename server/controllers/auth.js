@@ -117,7 +117,7 @@ module.exports = function (_server) {
         password:   'password-should-be-32-characters',
         cookie:     'updatrsid',
         redirectTo: false,
-        isSecure:   process.env.NODE_ENV === 'development' ? false : true,
+        isSecure:   false, // process.env.NODE_ENV === 'development' ? false : true,
         ttl:        30 * 24 * 60 * 60 * 1000 // 30 days
     });
 
@@ -126,7 +126,7 @@ module.exports = function (_server) {
         password: 'cookie_encryption_password_secure',
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        isSecure: process.env.NODE_ENV === 'development' ? false : true
+        isSecure: false // process.env.NODE_ENV === 'development' ? false : true
     });
 
     [
