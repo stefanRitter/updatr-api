@@ -104,7 +104,7 @@ function googleAuth (request, reply) {
                 return reply(Boom.unauthorized('Authentication failed: ' + err));
             }
             request.cookieAuth.set({_id: user._id});
-            reply.redirect('/');
+            reply.redirect('/auth');
         });
     });
 }
@@ -184,6 +184,13 @@ module.exports = function (_server) {
                         redirectTo: '/'
                     }
                 }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/auth',
+            handler: {
+                view: 'loggingin'
             }
         },
         {
