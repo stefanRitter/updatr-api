@@ -26,6 +26,7 @@ schema.methods.update = function (done) {
 
     var log = '';
 
+    console.log('requesting:', this.url);
     request(
         {
             method: 'GET',
@@ -55,6 +56,8 @@ schema.methods.update = function (done) {
                 if (err) {
                     console.error(err);
                     log += '<br>LINK SAVE ERROR '+this.url+' '+err;
+                } else {
+                    console.log('updated:', this.url);
                 }
                 done(log);
             });
