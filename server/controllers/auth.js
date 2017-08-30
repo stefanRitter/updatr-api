@@ -76,6 +76,40 @@ function logout (request, reply) {
 }
 
 
+function googleAuth (request, reply) {
+    if (!request.auth.isAuthenticated) {
+        return reply(Boom.unauthorized('Authentication failed: ' + request.auth.error.message));
+    }
+
+    const profile = request.auth.credentials.profile;
+    // id: '100434046832879616986',
+    // displayName: 'Stefan Ritter',
+    // name: { given_name: 'Stefan', family_name: 'Ritter' },
+    // email: 'imageproof@gmail.com'
+
+    User.findOne({email: profile.email}, function (err, user) {
+        if (err) {
+            return reply(Boom.unauthorized('Authentication failed: ' + err));
+        }
+
+        user = user || new User({
+            email: profile.email,
+            givenName: profile.name.given_name,
+            familyName: profile.name.family_name,
+            authStrategy: 'Google',
+        });
+
+        user.save(function (err, user) {
+            if (err) {
+                return reply(Boom.unauthorized('Authentication failed: ' + err));
+            }
+            request.cookieAuth.set({_id: user._id});
+            reply.redirect('/');
+        });
+    });
+}
+
+
 module.exports = function (_server) {
     server = _server;
 
@@ -83,11 +117,27 @@ module.exports = function (_server) {
         password:   'password-should-be-32-characters',
         cookie:     'updatrsid',
         redirectTo: false,
-        isSecure:   false,
+        isSecure:   process.env.NODE_ENV === 'development' ? false : true,
         ttl:        30 * 24 * 60 * 60 * 1000 // 30 days
     });
 
+    server.auth.strategy('google', 'bell', {
+        provider: 'google',
+        password: 'cookie_encryption_password_secure',
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        isSecure: process.env.NODE_ENV === 'development' ? false : true
+    });
+
     [
+        {
+            method: ['GET', 'POST'],
+            path: '/auth/google',
+            config: {
+                auth: 'google',
+                handler: googleAuth
+            }
+        },
         {
             method: ['GET', 'POST'],
             path: '/login',

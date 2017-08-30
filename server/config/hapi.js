@@ -8,6 +8,7 @@ const Handlebars = require('handlebars');
 const AuthCookie = require('hapi-auth-cookie');
 const Https = require('hapi-require-https');
 const Cors = require('hapi-cors');
+const Bell = require('bell');
 
 const server = new Hapi.Server();
 
@@ -71,8 +72,9 @@ module.exports = function (config) {
         });
     });
 
-    // register cookie auth
+    // register auth plugins
     server.register(AuthCookie, (err) => { if (err) { throw err; }});
+    server.register(Bell, (err) => { if (err) { throw err; }});
 
     return server;
 };

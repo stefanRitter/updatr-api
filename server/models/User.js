@@ -21,9 +21,14 @@ schema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         maxlength: 70,
         minlength: 6
+    },
+    givenName: String,
+    familyName: String,
+    authStrategy: {
+        type: String,
+        default: 'password'
     },
     role: String,
     links: [{
@@ -35,17 +40,22 @@ schema = mongoose.Schema({
 });
 
 schema.statics.login = function (email, passwordToMatch, cb) {
-    if (!email || !passwordToMatch) { return cb('missing email or password'); }
+    if (!email) { return cb('missing email or password'); }
 
     User.findOne({email: email}, function (err, user) {
         if (err) { return cb(err); }
-        if (!user) { return cb('user does not exist'); }
+        if (!user) { return cb('User does not exist, please sign up.'); }
+        if (!passwordToMatch) { return cb('missing email or password'); }
+
+        if (user.authStrategy !== 'password') {
+            return cb('Please use '+user.authStrategy+' to log in.');
+        }
 
         bcrypt.compare(passwordToMatch, user.password, function (err, res) {
             if (res) {
                 cb(null, user);
             } else {
-                cb('wrong password');
+                cb('Sorry, wrong password.');
             }
         });
     });
@@ -107,7 +117,7 @@ schema.methods.updateLinks = function (done) {
 };
 
 schema.pre('save', function (next) {
-    if (this.isNew) {
+    if (this.isNew && this.authStrategy === 'password') {
         bcrypt.hash(this.password, saltRounds, function (err, hash) {
             this.password = hash;
             next();
