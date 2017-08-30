@@ -1,7 +1,9 @@
 'use strict';
 
+const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:8040/' : 'https://www.getupdatr.com/';
 const User = require('mongoose').model('User');
 const Boom = require('boom');
+
 
 var server = {};
 

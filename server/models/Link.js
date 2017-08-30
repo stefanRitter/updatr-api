@@ -39,12 +39,12 @@ schema.methods.update = function (done) {
         (err, response, body) => {
             if (err) {
                 console.error(err);
-                log += '<br>URL ERROR '+link.url+' '+err;
+                log += '<br>URL ERROR '+this.url+' '+err;
                 return done(log);
             }
             if (response.statusCode !== 200) {
-                console.error('URL STATUS ERROR', link.url, response.statusCode);
-                log += '<br>URL STATUS ERROR '+link.url+' '+response.statusCode;
+                console.error('URL STATUS ERROR', this.url, response.statusCode);
+                log += '<br>URL STATUS ERROR '+this.url+' '+response.statusCode;
                 return done(log);
             }
 
@@ -52,10 +52,10 @@ schema.methods.update = function (done) {
             this.html = $('body').text().trim();
             this.updated = (new Date()).toDateString();
 
-            this.save(function (err) {
+            this.save((err) => {
                 if (err) {
                     console.error(err);
-                    log += '<br>LINK SAVE ERROR '+link.url+' '+err;
+                    log += '<br>LINK SAVE ERROR '+this.url+' '+err;
                 }
                 done(log);
             });
