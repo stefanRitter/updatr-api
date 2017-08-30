@@ -85,7 +85,7 @@
     color: darkgray;
     font-size: 14px;
 }
-.static-form button {
+.static-form button, .googlebutton {
     display: block;
     cursor: pointer;
     -webkit-user-select: none;
@@ -110,6 +110,29 @@
     padding: 10px;
     font-size: 20px;
 }
+.googlebutton {
+    border: 2px solid black;
+    background: white;
+    width: auto;
+    color: black;
+    position: relative;
+}
+.googlebutton img {
+    height: 30px;
+    display: block;
+    position: absolute;
+    left: 10px;
+    top: 8px;
+}
+.divider {
+    text-align: center;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 300;
+    color: darkgray;
+    margin: 2em 0 1em;
+}
+
 .footer {
     border: 0;
     margin: 0px auto 10px;

@@ -24,6 +24,11 @@
             height: calc(100% - 90px);
             overflow: auto;
         }
+        @media (max-height:628px) {
+            main {
+                height: auto;
+            }
+        }
         .app-header {
             background: #f36c3d;
             color: white;
@@ -78,6 +83,13 @@
         {{/if}}
 
         <form class="static-form" method="post" action="/join">
+            <a href="/auth/google" class="googlebutton">
+                <img src="/static/google-logo.svg" alt="G">
+                Sign up with Google
+            </a>
+
+            <p class="divider">or</p>
+
             <fieldset class="link-adder-container">
                 <label for="email">Your Email</label>
                 <input type="email" name="email" value="{{email}}">

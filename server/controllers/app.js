@@ -11,7 +11,7 @@ var server = {};
 function home (request, reply) {
     if (request.auth.isAuthenticated) {
         User.findOne({_id: request.auth.credentials._id}, function (err, user) {
-            if (err || !user) { return reply.view('index') }
+            if (err || !user) { return reply.redirect('/logout'); }
             if (user.role === 'beta') { return reply.file(appPath); }
             reply.view('closed');
         });
