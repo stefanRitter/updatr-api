@@ -25,6 +25,8 @@ User.find({}, function (err, users) {
     batch.concurrency(1);
 
     users.forEach(function (user) {
+        if (user.role !== 'beta') { return; }
+
         batch.push(function (done) {
             user.updateLinks(done);
         });

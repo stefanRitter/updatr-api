@@ -8,7 +8,8 @@ const Link = require('mongoose').model('Link');
 
 module.exports = function (user, userIsDone) {
     var batch = new Batch();
-    batch.concurrency(4);
+
+    batch.concurrency(5);
 
     var log = '<br><br>user: '+user.email;
 
