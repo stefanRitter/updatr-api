@@ -33,7 +33,6 @@ schema.methods.update = function (done) {
             followAllRedirects: true,
             timeout: 18000,
             jar: true,
-            pool: false,
             headers: { 'User-Agent': userAgent }
         },
         (err, response, body) => {
