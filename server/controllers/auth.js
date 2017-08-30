@@ -92,12 +92,10 @@ function googleAuth (request, reply) {
             return reply(Boom.unauthorized('Authentication failed: ' + err));
         }
 
-        user = user || new User({
-            email: profile.email,
-            givenName: profile.name.given_name,
-            familyName: profile.name.family_name,
-            authStrategy: 'Google',
-        });
+        user = user || new User({email: profile.email});
+        user.givenName = profile.name.given_name;
+        user.familyName = profile.name.family_name;
+        user.authStrategy = 'Google';
 
         user.save(function (err, user) {
             if (err) {
