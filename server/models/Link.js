@@ -32,7 +32,9 @@ schema.methods.update = function (done) {
             method: 'GET',
             url: this.url,
             followAllRedirects: true,
-            timeout: 12000,
+            timeout: 20000,
+            jar: true,
+            pool: false,
             headers: { 'User-Agent': userAgent }
         },
         (err, response, body) => {
