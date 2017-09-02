@@ -4,6 +4,7 @@ const Path = require('path');
 const appPath = Path.join(__dirname, '../static/app/index.html');
 const demoLinks = require('../models/demoLinks.js');
 const User = require('mongoose').model('User');
+const requestingHTML = require('../utils/respondToHTML.js');
 
 var server = {};
 
@@ -12,16 +13,19 @@ function home (request, reply) {
     if (request.auth.isAuthenticated) {
         User.findOne({_id: request.auth.credentials._id}, function (err, user) {
             if (err || !user) { return reply.redirect('/logout'); }
-            if (user.role === 'beta') { return reply.file(appPath); }
-            reply.view('closed');
+            reply.file(appPath);
         });
     } else {
         reply.view('index');
     }
 }
 
-function getDemoLinks (request, reply) {
-    return reply({links: demoLinks});
+function demo (request, reply) {
+    if (requestingHTML(request)) {
+        reply.file(appPath);
+    } else {
+        reply({links: demoLinks});
+    }
 }
 
 
@@ -32,14 +36,7 @@ module.exports = function (_server) {
         {
             method: 'GET',
             path: '/demo',
-            handler: {
-                file: appPath
-            }
-        },
-        {
-            method: 'GET',
-            path: '/demolinks',
-            handler: getDemoLinks
+            handler: demo
         },
         {
             method: ['GET'],

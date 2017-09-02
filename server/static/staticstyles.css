@@ -129,8 +129,24 @@
     font-size: 17px;
     font-style: italic;
     font-weight: 300;
-    color: darkgray;
-    margin: 2em 0 1em;
+    color: #dedede;
+    margin: 2em 0 1.5em;
+}
+.divider:before, .divider::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: #dedede;
+    width: 40%;
+    float: left;
+    margin-left: 16px;
+    position: relative;
+    top: 10px;
+}
+.divider:after {
+    float: right;
+    margin-left: 0;
+    margin-right: 16px;
 }
 
 .footer {

@@ -180,11 +180,11 @@ var STORE = (function () {
         this.http = http;
         // get links
         var url = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].server;
-        if (location.pathname === '/demo') {
-            url += 'demolinks';
+        if (location.pathname === '/') {
+            url += 'links';
         }
         else {
-            url += 'links';
+            url += location.pathname.replace('/', '');
         }
         this.http.get(url, { withCredentials: true })
             .subscribe(function (response) { return handleResponse(response); }, function (error) { return _this.handleError(error); });

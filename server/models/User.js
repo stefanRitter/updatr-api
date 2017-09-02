@@ -30,7 +30,10 @@ schema = mongoose.Schema({
         type: String,
         default: 'password'
     },
-    role: String,
+    role: {
+        type: String,
+        default: 'free'
+    },
     links: [{
         url:     String,
         visited: Boolean,
