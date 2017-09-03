@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(461)();
 
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Material Icons'), local('MaterialIcons-Regular'), url(" + __webpack_require__(484) + ") format('woff2');\n}\n.icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  line-height: 1;\n  letter-spacing: normal;\n  text-transform: none;\n  display: inline-block;\n  white-space: nowrap;\n  word-wrap: normal;\n  direction: ltr;\n  -webkit-font-feature-settings: 'liga';\n  -webkit-font-smoothing: antialiased;\n}\n\nbody {\n    font-family: \"Helvetica Neue\", Helvetica, sans-serif;\n    background: whitesmoke;\n    margin: 70px 5px;\n}\n.card {\n    font-size: 14px;\n    background: #fff;\n    border: 1px solid #EFEAE8;\n    margin: 20px auto;\n    padding: 0;\n}\n@media (max-width: 549px) {\n    body {\n        margin: 50px 0px;\n    }\n    .card {\n        margin: auto;\n    }\n}\n", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\nbody {\n    font-family: \"Helvetica Neue\", Helvetica, sans-serif;\n    background: whitesmoke;\n    margin: 70px 5px;\n}\n.card {\n    font-size: 14px;\n    background: #fff;\n    border: 1px solid #EFEAE8;\n    margin: 20px auto;\n    padding: 0;\n}\n@media (max-width: 549px) {\n    body {\n        margin: 50px 0px;\n    }\n    .card {\n        margin: auto;\n    }\n}\n", ""]);
 
 // exports
 
@@ -352,14 +352,7 @@ function updateLink(linkElement, obj) {
 
 /***/ }),
 
-/***/ 484:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "materialicons.woff2";
-
-/***/ }),
-
-/***/ 488:
+/***/ 487:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(296);
@@ -367,5 +360,5 @@ module.exports = __webpack_require__(296);
 
 /***/ })
 
-},[488]);
+},[487]);
 //# sourceMappingURL=styles.bundle.map
